@@ -8,7 +8,7 @@
 		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/movie_db_unit4</property>
 		<property name="hibernate.connection.username">root</property>
-		<property name="hibernate.connection.password">fDhm948u!</property>
+		<property name="hibernate.connection.password"></property>
 		
 		<!-- Connection Pool Size -->
 		<property name="hibernate.connection.pool_size">10</property>
@@ -19,8 +19,8 @@
 		<!-- Outputs the SQL queries in terminal-->
 		<property name="hibernate.show_sql">true</property>
 
-		<!--create table if it doesn't exist, use create-only or update-->
-		<property name="hbm2ddl.auto">update</property>
+		<!--create table if it doesn't exist, use create-only or update to persist, create to drop before each run-->
+		<property name="hbm2ddl.auto">create</property>
 
     <mapping class="com.aimjavaunit4.Movie"></mapping>
 		<mapping class="com.aimjavaunit4.Director"></mapping>

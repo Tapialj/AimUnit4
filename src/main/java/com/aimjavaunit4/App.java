@@ -70,6 +70,101 @@ public final class App
                     session.save(rating);
                 }
             }
+
+            //Check if starter movies have been insterted, if not then instert them.
+            sql = "SELECT * FROM movies WHERE movie_id = '1';";
+            query = session.createSQLQuery(sql).addEntity(Movie.class);
+            Movie moviePreCheck = (Movie) query.uniqueResult();
+
+            if(moviePreCheck == null)
+            {
+                int[] movieIds = new int[5];
+                int[] actorIds = new int[13];
+                int[] directorIds = new int[3];
+                int[] yearReleased = {2010, 2008, 2006, 2010, 2003};
+                int[] ratingIds = {3, 3, 4, 3, 4};
+                String[] directors = {"Christopher Nolan", "Martin Scorsese", "Park Chan-Wook"};
+                String[] movieTitles = {"Inception", "The Dark Knight", "The Departed", "Shutter Island", "Oldboy"};
+                String[] tempActors = {"Leonardo DiCaprio", "Ken Watanabe", "Elliot Page", "Matt Damon", "Jack Nicholson", "Christian Bale", "Heath Ledger", "Aaron Eckhart", "Mark Ruffalo", "Ben Kingsley", "Choi Min-sik", "Yoo Ji-Tae", "Kang Hye-jeong"};
+                Director tempDirector;
+                Actor tempActor;
+                Movie tempMovie;
+                MovieCast tempCast;
+                
+                for(int i = 0; i < directors.length; i++)
+                {
+                    tempDirector = new Director(directors[i]);
+                    directorIds[i] = (Integer) session.save(tempDirector);
+                }
+
+                for(int i = 0; i < tempActors.length; i++)
+                {
+                    tempActor = new Actor(tempActors[i]);
+                    actorIds[i] = (Integer) session.save(tempActor);
+                }
+
+                for(int i = 0; i < movieTitles.length; i++)
+                {
+                    if(i == 0 || i == 1)
+                    {
+                        tempMovie = new Movie(movieTitles[i], yearReleased[i], ratingIds[i], directorIds[0]);
+                    }
+                    else if(i == 2 || i == 3)
+                    {
+                        tempMovie = new Movie(movieTitles[i], yearReleased[i], ratingIds[i], directorIds[1]);
+                    }
+                    else
+                    {
+                        tempMovie = new Movie(movieTitles[i], yearReleased[i], ratingIds[i], directorIds[2]);
+                    }
+
+                    movieIds[i] = (Integer) session.save(tempMovie);
+
+                    switch(i)
+                    {
+                        case 0:
+                            tempCast = new MovieCast(actorIds[0], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[1], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[2], movieIds[i]);
+                            session.save(tempCast);
+                            break;
+                        case 1:
+                            tempCast = new MovieCast(actorIds[5], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[6], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[7], movieIds[i]);
+                            session.save(tempCast);
+                            break;
+                        case 2:
+                            tempCast = new MovieCast(actorIds[0], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[3], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[4], movieIds[i]);
+                            session.save(tempCast);
+                            break;
+                        case 3:
+                            tempCast = new MovieCast(actorIds[0], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[8], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[9], movieIds[i]);
+                            session.save(tempCast);
+                            break;
+                        case 4:
+                            tempCast = new MovieCast(actorIds[10], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[11], movieIds[i]);
+                            session.save(tempCast);
+                            tempCast = new MovieCast(actorIds[12], movieIds[i]);
+                            session.save(tempCast);
+                            break;
+                    }
+                }
+            }
             
             //Get Movie name, loop until one that isn't in the DB is given
             do
